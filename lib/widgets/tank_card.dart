@@ -2,6 +2,8 @@ import 'package:app/models/tank.dart';
 import 'package:app/widgets/tank_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TankCard extends StatelessWidget {
   final Tank tank;
@@ -10,193 +12,259 @@ class TankCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardHeight = screenWidth * 0.4;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () {},
-          child: SizedBox(
-            width: 600,
-            height: 220,
-            child: Material(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.transparent,
-              child: Ink(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.0, 0.5, 1.0],
-                    colors: [
-                      Color(0xFF4A6A8C),
-                      Color(0xFF617C99),
-                      Color(0xFF354C6B),
-                    ],
-                  ),
-                  border: Border.all(color: Colors.grey.shade800, width: 4),
+      margin: EdgeInsets.symmetric(
+        vertical: screenWidth * 0.02,
+        horizontal: screenWidth * 0.025,
+      ),
+      child: SizedBox(
+        height: cardHeight * 1.4,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(screenWidth * 0.03),
+          ),
+          clipBehavior: Clip.antiAlias, // important for rounded corners
+          elevation: 0,
+          child: Stack(
+            children: [
+              // Background SVG layers
+              Positioned.fill(
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: SvgPicture.asset(
+                        'assets/ui/button_layer1.svg',
+                        fit: BoxFit.fill,
+                        colorFilter: const ColorFilter.mode(
+                          Color(0xFF1C1F26),
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: SvgPicture.asset(
+                        'assets/ui/button_layer2.svg',
+                        fit: BoxFit.fill,
+                        colorFilter: const ColorFilter.mode(
+                          Color(0xFF2E323D),
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: SvgPicture.asset(
+                        'assets/ui/button_layer3.svg',
+                        fit: BoxFit.fill,
+                        colorFilter: const ColorFilter.mode(
+                          Color(0xFF505A69),
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(12),
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+
+              // Material + InkWell for full-card tap animation
+              Positioned.fill(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                    onTap: () {
+                      // handle tap
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(screenWidth * 0.05),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Top row: name + player count
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Stack(
                                 children: [
-                                  Stack(
-                                    children: [
-                                      Text(
-                                        tank.name,
-                                        style: GoogleFonts.unifrakturCook(
-                                          textStyle: TextStyle(
-                                            fontSize: 32,
-                                            foreground: Paint()
-                                              ..style = PaintingStyle.stroke
-                                              ..strokeWidth = 6
-                                              ..color = Colors.black,
-                                          ),
-                                        ),
+                                  AutoSizeText(
+                                    tank.name,
+                                    minFontSize: 20,
+                                    style: GoogleFonts.unifrakturCook(
+                                      textStyle: TextStyle(
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 6
+                                          ..color = Colors.black,
                                       ),
-                                      Text(
-                                        tank.name,
-                                        style: GoogleFonts.unifrakturCook(
-                                          textStyle: const TextStyle(
-                                            fontSize: 32,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-
-                                  Stack(
-                                    children: [
-                                      Text(
-                                        tank.gameInfo,
-                                        style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                  AutoSizeText(
+                                    tank.name,
+                                    minFontSize: 20,
+                                    style: GoogleFonts.unifrakturCook(
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
-
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              Stack(
                                 children: [
-                                  Stack(
-                                    children: [
-                                      Text(
-                                        'Price: ${tank.currentPrice}',
-                                        style: GoogleFonts.unifrakturCook(
-                                          textStyle: TextStyle(
-                                            fontSize: 24,
-                                            foreground: Paint()
-                                              ..style = PaintingStyle.stroke
-                                              ..strokeWidth = 6
-                                              ..color = Colors.black,
-                                          ),
-                                        ),
+                                  AutoSizeText(
+                                    '${tank.playerAmount} in Battle',
+                                    maxLines: 1,
+                                    minFontSize: 16,
+                                    style: GoogleFonts.unifrakturCook(
+                                      textStyle: TextStyle(
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 6
+                                          ..color = Colors.black,
                                       ),
-                                      Text(
-                                        'Price: ${tank.currentPrice}',
-                                        style: GoogleFonts.unifrakturCook(
-                                          textStyle: const TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-
-                                  Stack(
-                                    children: [
-                                      Text(
-                                        'Fighting: ${tank.playerAmount}',
-                                        style: GoogleFonts.unifrakturCook(
-                                          textStyle: TextStyle(
-                                            fontSize: 24,
-                                            foreground: Paint()
-                                              ..style = PaintingStyle.stroke
-                                              ..strokeWidth = 6
-                                              ..color = Colors.black,
-                                          ),
-                                        ),
+                                  AutoSizeText(
+                                    '${tank.playerAmount} in Battle',
+                                    maxLines: 1,
+                                    minFontSize: 16,
+                                    style: GoogleFonts.unifrakturCook(
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                      Text(
-                                        'Fighting: ${tank.playerAmount}',
-                                        style: GoogleFonts.unifrakturCook(
-                                          textStyle: const TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ),
-                      ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Container(
-                          width: 250,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 15, 15, 15),
-                              width: 3,
-                            ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(9),
-                            child: Stack(
+                          SizedBox(height: screenWidth * 0.02),
+
+                          // Main content
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Ink.image(
-                                  image: AssetImage(tank.imagePaths.first),
-                                  fit: BoxFit.cover,
-                                  child: Container(),
+                                // Left column
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AutoSizeText(
+                                        tank.gameInfo,
+                                        maxLines: 8,
+                                        minFontSize: 12,
+                                        maxFontSize: 32,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.lato(
+                                          textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Stack(
+                                        children: [
+                                          AutoSizeText(
+                                            'Cost: ${tank.currentPrice}Bp',
+                                            maxLines: 1,
+                                            style: GoogleFonts.unifrakturCook(
+                                              textStyle: TextStyle(
+                                                fontSize: 24,
+                                                foreground: Paint()
+                                                  ..style = PaintingStyle.stroke
+                                                  ..strokeWidth = 6
+                                                  ..color = Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          AutoSizeText(
+                                            'Cost: ${tank.currentPrice}Bp',
+                                            maxLines: 1,
+                                            style: GoogleFonts.unifrakturCook(
+                                              textStyle: const TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                SizedBox(width: screenWidth * 0.01),
 
-                                TankInfoIcon(
-                                  tankName: tank.name,
-                                  imagePaths: tank.imagePaths,
-                                  description: tank.generalDescription,
+                                // Right column: tank image + info
+                                SizedBox(
+                                  width: cardHeight,
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Stack(
+                                        children: [
+                                          Ink(
+                                            decoration: ShapeDecoration(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  tank.imagePaths.first,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                                colors: [
+                                                  Colors.transparent,
+                                                  Colors.white.withValues(
+                                                    alpha: 0.2,
+                                                  ),
+                                                  Colors.transparent,
+                                                ],
+                                                stops: const [0.0, 0.5, 1.0],
+                                              ),
+                                            ),
+                                          ),
+                                          TankInfoIcon(
+                                            tankName: tank.name,
+                                            imagePaths: tank.imagePaths,
+                                            description:
+                                                tank.generalDescription,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
