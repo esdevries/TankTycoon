@@ -2,8 +2,6 @@ import 'dart:math';
 
 class Vehicle {
   final String name;
-  final String type;
-  final String nation;
   final String gameInfo;
   final double income;
   final String generalDescription;
@@ -13,8 +11,6 @@ class Vehicle {
 
   Vehicle({
     required this.name,
-    required this.type,
-    required this.nation,
     required this.gameInfo,
     required this.income,
     required this.generalDescription,

@@ -56,22 +56,22 @@ class MyHomePage extends StatelessWidget {
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 1000;
 
+          final allVehiclesList = allVehicles.values
+              .expand((typeMap) => typeMap.values)
+              .expand((vehicleList) => vehicleList)
+              .toList();
+
           return GridView.builder(
             padding: const EdgeInsets.all(16),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isWide
-                  ? 3
-                  : 1, // 3 columns if wide, 1 column otherwise
+              crossAxisCount: isWide ? 3 : 1,
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
               childAspectRatio: 1.6,
             ),
-            itemCount: isWide ? 9 : allVehicles.length,
+            itemCount: isWide ? 9 : allVehiclesList.length,
             itemBuilder: (context, index) {
-              final vehicle = isWide
-                  ? allVehicles[index % allVehicles.length] // duplicate if <9
-                  : allVehicles[index];
-
+              final vehicle = allVehiclesList[index % allVehiclesList.length];
               return VehicleCard(vehicle: vehicle);
             },
           );

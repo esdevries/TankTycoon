@@ -28,43 +28,80 @@ class VehicleInfoIcon extends StatelessWidget {
               builder: (context) {
                 final screenSize = MediaQuery.of(context).size;
 
-                return AlertDialog(
+                return Dialog(
                   insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  title: Text(vehicleName),
-                  content: ConstrainedBox(
+                  backgroundColor: Colors.transparent,
+                  child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: screenSize.height * 0.7,
+                      maxHeight: screenSize.height * 0.8,
                       maxWidth: screenSize.width * 0.85,
                     ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            description,
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                          const SizedBox(height: 16),
-                          ...imagePaths.map(
-                            (path) => Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: SizedBox(
-                                width: double
-                                    .infinity, // stretch full dialog width
-                                child: ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 1000, // keep sane on ultrawide
-                                  ),
-                                  child: Image.asset(
-                                    path,
-                                    fit: BoxFit.contain, // scale proportionally
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF505A69),
+                        border: Border.all(
+                          color: const Color(0xFF1C1F26),
+                          width: 8,
+                        ),
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: SafeArea(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Padding(
+                              padding: EdgeInsets.all(
+                                constraints.maxHeight * 0.02,
+                              ),
+                              child: ClipRRect(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        vehicleName,
+                                        style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Text(
+                                        description,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      ...imagePaths.map(
+                                        (path) => Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 12,
+                                          ),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: ConstrainedBox(
+                                              constraints: const BoxConstraints(
+                                                maxWidth: 1000,
+                                              ),
+                                              child: Image.asset(
+                                                path,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

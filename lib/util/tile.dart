@@ -5,7 +5,11 @@ Widget buildTileBackground({required List<Color> colors}) {
   return Stack(
     children: [
       for (var i = 1; i <= 3; i++)
-        Positioned.fill(
+        Positioned(
+          top: -1.5 * i,
+          bottom: -1.5 * i,
+          left: -0.5 * i,
+          right: -0.5 * i,
           child: SvgPicture.asset(
             'assets/ui/tile_layer$i.svg',
             fit: BoxFit.fill,
