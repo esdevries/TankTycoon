@@ -52,10 +52,29 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
 
-      body: ListView.builder(
-        itemCount: allVehicles.length,
-        itemBuilder: (context, index) {
-          return Center(child: VehicleCard(vehicle: allVehicles[index]));
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth > 1000;
+
+          return GridView.builder(
+            padding: const EdgeInsets.all(16),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: isWide
+                  ? 3
+                  : 1, // 3 columns if wide, 1 column otherwise
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1.6,
+            ),
+            itemCount: isWide ? 9 : allVehicles.length,
+            itemBuilder: (context, index) {
+              final vehicle = isWide
+                  ? allVehicles[index % allVehicles.length] // duplicate if <9
+                  : allVehicles[index];
+
+              return VehicleCard(vehicle: vehicle);
+            },
+          );
         },
       ),
     );
