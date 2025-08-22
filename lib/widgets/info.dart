@@ -25,30 +25,51 @@ class VehicleInfoIcon extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-                title: Text(vehicleName),
-                content: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.6,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(description, style: const TextStyle(fontSize: 18)),
-                        const SizedBox(height: 16),
-                        ...imagePaths.map(
-                          (path) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Image.asset(path),
+              builder: (context) {
+                final screenSize = MediaQuery.of(context).size;
+
+                return AlertDialog(
+                  insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  title: Text(vehicleName),
+                  content: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: screenSize.height * 0.7,
+                      maxWidth: screenSize.width * 0.85,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            description,
+                            style: const TextStyle(fontSize: 18),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 16),
+                          ...imagePaths.map(
+                            (path) => Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: SizedBox(
+                                width: double
+                                    .infinity, // stretch full dialog width
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 1000, // keep sane on ultrawide
+                                  ),
+                                  child: Image.asset(
+                                    path,
+                                    fit: BoxFit.contain, // scale proportionally
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           },
           child: Container(

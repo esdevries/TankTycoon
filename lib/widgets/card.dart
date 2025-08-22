@@ -2,7 +2,6 @@ import 'package:app/models/vehicle.dart';
 import 'package:app/widgets/info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class VehicleCard extends StatelessWidget {
@@ -84,65 +83,112 @@ class VehicleCard extends StatelessWidget {
                         children: [
                           // Top row: name + player count
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Stack(
-                                children: [
-                                  AutoSizeText(
-                                    vehicle.name,
-                                    minFontSize: 20,
-                                    style: GoogleFonts.unifrakturCook(
-                                      textStyle: TextStyle(
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.stroke
-                                          ..strokeWidth = 6
-                                          ..color = Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    vehicle.name,
-                                    minFontSize: 20,
-                                    style: GoogleFonts.unifrakturCook(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              // Left: vehicle name (takes more space)
+                              Expanded(
+                                flex: 3,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final availableWidth = constraints.maxWidth;
+                                    // tune multipliers to taste
+                                    final rawFontSize = availableWidth * 0.18;
+                                    final fontSize = rawFontSize.clamp(
+                                      14.0,
+                                      MediaQuery.of(context).size.width * 0.05,
+                                    );
+
+                                    return Stack(
+                                      alignment: Alignment.centerLeft,
+                                      children: [
+                                        // stroke
+                                        Text(
+                                          vehicle.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.unifrakturCook(
+                                            textStyle: TextStyle(
+                                              fontSize: fontSize,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth =
+                                                    fontSize *
+                                                    0.2 // scale stroke with font
+                                                ..color = Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        // fill
+                                        Text(
+                                          vehicle.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.unifrakturCook(
+                                            textStyle: TextStyle(
+                                              fontSize: fontSize,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
-                              Stack(
-                                children: [
-                                  AutoSizeText(
-                                    '${vehicle.playerAmount} in Battle',
-                                    maxLines: 1,
-                                    minFontSize: 16,
-                                    style: GoogleFonts.unifrakturCook(
-                                      textStyle: TextStyle(
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.stroke
-                                          ..strokeWidth = 6
-                                          ..color = Colors.black,
+
+                              SizedBox(width: screenWidth * 0.02),
+
+                              Expanded(
+                                flex: 2,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final w = constraints.maxWidth;
+                                    final rawFontSize = w * 0.14;
+                                    final fontSize = rawFontSize.clamp(
+                                      12.0,
+                                      MediaQuery.of(context).size.width * 0.05,
+                                    );
+
+                                    return Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Stack(
+                                        children: [
+                                          Text(
+                                            '${vehicle.playerAmount} in Battle',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.unifrakturCook(
+                                              textStyle: TextStyle(
+                                                fontSize: fontSize,
+                                                foreground: Paint()
+                                                  ..style = PaintingStyle.stroke
+                                                  ..strokeWidth = fontSize * 0.2
+                                                  ..color = Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            '${vehicle.playerAmount} in Battle',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.unifrakturCook(
+                                              textStyle: TextStyle(
+                                                fontSize: fontSize,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    '${vehicle.playerAmount} in Battle',
-                                    maxLines: 1,
-                                    minFontSize: 16,
-                                    style: GoogleFonts.unifrakturCook(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
 
                           SizedBox(height: screenWidth * 0.02),
 
+                          // Main content
                           // Main content
                           Expanded(
                             child: Row(
@@ -156,49 +202,93 @@ class VehicleCard extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      AutoSizeText(
-                                        vehicle.gameInfo,
-                                        maxLines: 8,
-                                        minFontSize: 12,
-                                        maxFontSize: 32,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
+                                      // Vehicle game info
+                                      Expanded(
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            final availableWidth =
+                                                constraints.maxWidth;
+                                            final availableHeight =
+                                                constraints.maxHeight;
+
+                                            // derive font size from available space
+                                            final rawFontSize =
+                                                availableWidth * 0.06;
+                                            final fontSize = rawFontSize.clamp(
+                                              12.0,
+                                              availableHeight * 0.25,
+                                            );
+
+                                            return Text(
+                                              vehicle.gameInfo,
+                                              maxLines: 8,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                  fontSize: fontSize,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
-                                      Stack(
-                                        children: [
-                                          AutoSizeText(
-                                            'Cost: ${vehicle.currentPrice}Bp',
-                                            maxLines: 1,
-                                            style: GoogleFonts.unifrakturCook(
-                                              textStyle: TextStyle(
-                                                fontSize: 24,
-                                                foreground: Paint()
-                                                  ..style = PaintingStyle.stroke
-                                                  ..strokeWidth = 6
-                                                  ..color = Colors.black,
+
+                                      SizedBox(height: screenWidth * 0.01),
+
+                                      // Cost text (stroke + fill)
+                                      LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          final w = constraints.maxWidth;
+                                          final rawFontSize = w * 0.12;
+                                          final fontSize = rawFontSize.clamp(
+                                            14.0,
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                          );
+
+                                          return Stack(
+                                            children: [
+                                              Text(
+                                                'Cost: ${vehicle.currentPrice}Bp',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                                    GoogleFonts.unifrakturCook(
+                                                      textStyle: TextStyle(
+                                                        fontSize: fontSize,
+                                                        foreground: Paint()
+                                                          ..style =
+                                                              PaintingStyle
+                                                                  .stroke
+                                                          ..strokeWidth =
+                                                              fontSize * 0.2
+                                                          ..color =
+                                                              Colors.black,
+                                                      ),
+                                                    ),
                                               ),
-                                            ),
-                                          ),
-                                          AutoSizeText(
-                                            'Cost: ${vehicle.currentPrice}Bp',
-                                            maxLines: 1,
-                                            style: GoogleFonts.unifrakturCook(
-                                              textStyle: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white,
+                                              Text(
+                                                'Cost: ${vehicle.currentPrice}Bp',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                                    GoogleFonts.unifrakturCook(
+                                                      textStyle: TextStyle(
+                                                        fontSize: fontSize,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                               ),
-                                            ),
-                                          ),
-                                        ],
+                                            ],
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),
                                 ),
+
                                 SizedBox(width: screenWidth * 0.01),
 
                                 // Right column: vehicle image + info
