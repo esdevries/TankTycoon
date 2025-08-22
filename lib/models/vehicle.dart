@@ -1,7 +1,8 @@
 import 'dart:math';
 
-class Tank {
+class Vehicle {
   final String name;
+  final String type;
   final String nation;
   final String gameInfo;
   final double income;
@@ -10,8 +11,9 @@ class Tank {
   final List<String> imagePaths;
   int playerAmount;
 
-  Tank({
+  Vehicle({
     required this.name,
+    required this.type,
     required this.nation,
     required this.gameInfo,
     required this.income,

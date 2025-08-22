@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'data/tanks.dart';
-import 'widgets/tank_card.dart';
+import 'data/vehicles.dart';
+import 'widgets/card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,9 +53,9 @@ class MyHomePage extends StatelessWidget {
       ),
 
       body: ListView.builder(
-        itemCount: allTanks.length,
+        itemCount: allVehicles.length,
         itemBuilder: (context, index) {
-          return Center(child: TankCard(tank: allTanks[index]));
+          return Center(child: VehicleCard(vehicle: allVehicles[index]));
         },
       ),
     );

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TankInfoIcon extends StatelessWidget {
-  final String tankName;
+class VehicleInfoIcon extends StatelessWidget {
+  final String vehicleName;
   final List<String> imagePaths;
   final String description;
 
-  const TankInfoIcon({
+  const VehicleInfoIcon({
     super.key,
-    required this.tankName,
+    required this.vehicleName,
     required this.imagePaths,
     required this.description,
   });
@@ -27,7 +27,7 @@ class TankInfoIcon extends StatelessWidget {
               context: context,
               builder: (context) => AlertDialog(
                 insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-                title: Text(tankName),
+                title: Text(vehicleName),
                 content: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.6,

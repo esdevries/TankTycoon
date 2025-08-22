@@ -1,14 +1,14 @@
-import 'package:app/models/tank.dart';
-import 'package:app/widgets/tank_info.dart';
+import 'package:app/models/vehicle.dart';
+import 'package:app/widgets/info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class TankCard extends StatelessWidget {
-  final Tank tank;
+class VehicleCard extends StatelessWidget {
+  final Vehicle vehicle;
 
-  const TankCard({super.key, required this.tank});
+  const VehicleCard({super.key, required this.vehicle});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TankCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: screenWidth * 0.02,
-        horizontal: screenWidth * 0.025,
+        horizontal: screenWidth * 0.01,
       ),
       child: SizedBox(
         height: cardHeight * 1.4,
@@ -26,7 +26,7 @@ class TankCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(screenWidth * 0.03),
           ),
-          clipBehavior: Clip.antiAlias, // important for rounded corners
+          clipBehavior: Clip.antiAlias,
           elevation: 0,
           child: Stack(
             children: [
@@ -36,7 +36,7 @@ class TankCard extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: SvgPicture.asset(
-                        'assets/ui/button_layer1.svg',
+                        'assets/ui/tile_layer1.svg',
                         fit: BoxFit.fill,
                         colorFilter: const ColorFilter.mode(
                           Color(0xFF1C1F26),
@@ -46,7 +46,7 @@ class TankCard extends StatelessWidget {
                     ),
                     Positioned.fill(
                       child: SvgPicture.asset(
-                        'assets/ui/button_layer2.svg',
+                        'assets/ui/tile_layer2.svg',
                         fit: BoxFit.fill,
                         colorFilter: const ColorFilter.mode(
                           Color(0xFF2E323D),
@@ -56,7 +56,7 @@ class TankCard extends StatelessWidget {
                     ),
                     Positioned.fill(
                       child: SvgPicture.asset(
-                        'assets/ui/button_layer3.svg',
+                        'assets/ui/tile_layer3.svg',
                         fit: BoxFit.fill,
                         colorFilter: const ColorFilter.mode(
                           Color(0xFF505A69),
@@ -89,7 +89,7 @@ class TankCard extends StatelessWidget {
                               Stack(
                                 children: [
                                   AutoSizeText(
-                                    tank.name,
+                                    vehicle.name,
                                     minFontSize: 20,
                                     style: GoogleFonts.unifrakturCook(
                                       textStyle: TextStyle(
@@ -101,7 +101,7 @@ class TankCard extends StatelessWidget {
                                     ),
                                   ),
                                   AutoSizeText(
-                                    tank.name,
+                                    vehicle.name,
                                     minFontSize: 20,
                                     style: GoogleFonts.unifrakturCook(
                                       textStyle: const TextStyle(
@@ -114,7 +114,7 @@ class TankCard extends StatelessWidget {
                               Stack(
                                 children: [
                                   AutoSizeText(
-                                    '${tank.playerAmount} in Battle',
+                                    '${vehicle.playerAmount} in Battle',
                                     maxLines: 1,
                                     minFontSize: 16,
                                     style: GoogleFonts.unifrakturCook(
@@ -127,7 +127,7 @@ class TankCard extends StatelessWidget {
                                     ),
                                   ),
                                   AutoSizeText(
-                                    '${tank.playerAmount} in Battle',
+                                    '${vehicle.playerAmount} in Battle',
                                     maxLines: 1,
                                     minFontSize: 16,
                                     style: GoogleFonts.unifrakturCook(
@@ -157,7 +157,7 @@ class TankCard extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       AutoSizeText(
-                                        tank.gameInfo,
+                                        vehicle.gameInfo,
                                         maxLines: 8,
                                         minFontSize: 12,
                                         maxFontSize: 32,
@@ -172,7 +172,7 @@ class TankCard extends StatelessWidget {
                                       Stack(
                                         children: [
                                           AutoSizeText(
-                                            'Cost: ${tank.currentPrice}Bp',
+                                            'Cost: ${vehicle.currentPrice}Bp',
                                             maxLines: 1,
                                             style: GoogleFonts.unifrakturCook(
                                               textStyle: TextStyle(
@@ -185,7 +185,7 @@ class TankCard extends StatelessWidget {
                                             ),
                                           ),
                                           AutoSizeText(
-                                            'Cost: ${tank.currentPrice}Bp',
+                                            'Cost: ${vehicle.currentPrice}Bp',
                                             maxLines: 1,
                                             style: GoogleFonts.unifrakturCook(
                                               textStyle: const TextStyle(
@@ -201,7 +201,7 @@ class TankCard extends StatelessWidget {
                                 ),
                                 SizedBox(width: screenWidth * 0.01),
 
-                                // Right column: tank image + info
+                                // Right column: vehicle image + info
                                 SizedBox(
                                   width: cardHeight,
                                   child: Ink(
@@ -220,7 +220,7 @@ class TankCard extends StatelessWidget {
                                               ),
                                               image: DecorationImage(
                                                 image: AssetImage(
-                                                  tank.imagePaths.first,
+                                                  vehicle.imagePaths.first,
                                                 ),
                                                 fit: BoxFit.cover,
                                               ),
@@ -244,11 +244,11 @@ class TankCard extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          TankInfoIcon(
-                                            tankName: tank.name,
-                                            imagePaths: tank.imagePaths,
+                                          VehicleInfoIcon(
+                                            vehicleName: vehicle.name,
+                                            imagePaths: vehicle.imagePaths,
                                             description:
-                                                tank.generalDescription,
+                                                vehicle.generalDescription,
                                           ),
                                         ],
                                       ),

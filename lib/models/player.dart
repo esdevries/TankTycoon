@@ -1,4 +1,4 @@
-import 'package:app/models/tank.dart';
+import 'package:app/models/vehicle.dart';
 
 class Player {
   int battlePoints;
@@ -23,13 +23,13 @@ class Player {
     battlePoints += amount;
   }
 
-  void prestige(double newMultiplier, List<Tank> tanks) {
+  void prestige(double newMultiplier, List<Vehicle> vehicles) {
     battlePoints = 5;
     prestigeLevel++;
     multiplier *= newMultiplier;
 
-    for (var tank in tanks) {
-      tank.prestige();
+    for (var vehicle in vehicles) {
+      vehicle.prestige();
     }
   }
 }
