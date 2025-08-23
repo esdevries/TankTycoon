@@ -5,11 +5,14 @@ Widget outlinedText(
   String text,
   BuildContext context, {
   double multiplier = 1.0,
+  double minSize = 0.0,
+  double maxSize = double.infinity,
 }) {
   return LayoutBuilder(
     builder: (context, constraints) {
       final maxWidth = constraints.maxWidth;
       final fontSize = maxWidth * 0.1 * multiplier;
+      final clampedFontSize = fontSize.clamp(minSize, maxSize).toDouble();
 
       return Stack(
         children: [
@@ -19,10 +22,10 @@ Widget outlinedText(
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.unifrakturCook(
               textStyle: TextStyle(
-                fontSize: fontSize,
+                fontSize: clampedFontSize,
                 foreground: Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = fontSize * 0.2
+                  ..strokeWidth = clampedFontSize * 0.2
                   ..color = Colors.black,
               ),
             ),
@@ -32,7 +35,10 @@ Widget outlinedText(
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.unifrakturCook(
-              textStyle: TextStyle(fontSize: fontSize, color: Colors.white),
+              textStyle: TextStyle(
+                fontSize: clampedFontSize,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
