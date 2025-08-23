@@ -3,13 +3,15 @@ import 'package:app/models/vehicle.dart';
 class Player {
   int battlePoints;
   int prestigeLevel;
+  Map<String, int> vehicleProgression;
   double multiplier;
 
   Player({
     this.battlePoints = 5,
     this.prestigeLevel = 0,
     this.multiplier = 1.0,
-  });
+    Map<String, int>? vehicleProgression,
+  }) : vehicleProgression = vehicleProgression ?? {};
 
   bool spendBattlePoints(int amount) {
     if (battlePoints >= amount) {
@@ -27,9 +29,6 @@ class Player {
     battlePoints = 5;
     prestigeLevel++;
     multiplier *= newMultiplier;
-
-    for (var vehicle in vehicles) {
-      vehicle.prestige();
-    }
+    vehicleProgression = {};
   }
 }

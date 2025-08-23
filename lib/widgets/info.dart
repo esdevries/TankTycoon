@@ -1,3 +1,5 @@
+import 'package:app/data/nations.dart';
+import 'package:app/screens/nation.dart';
 import 'package:flutter/material.dart';
 
 class VehicleInfoIcon extends StatelessWidget {
@@ -14,6 +16,8 @@ class VehicleInfoIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentNation = NationScope.of(context).currentNation;
+
     return Positioned(
       bottom: 8,
       right: 8,
@@ -33,14 +37,14 @@ class VehicleInfoIcon extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: screenSize.height * 0.8,
-                      maxWidth: screenSize.width * 0.85,
+                      maxHeight: screenSize.height * 0.7,
+                      maxWidth: screenSize.height * 0.8,
                     ),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFF505A69),
+                        color: nationColors[currentNation]!.last,
                         border: Border.all(
-                          color: const Color(0xFF1C1F26),
+                          color: nationColors[currentNation]!.first,
                           width: 8,
                         ),
                         borderRadius: BorderRadius.circular(24),
